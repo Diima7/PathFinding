@@ -30,7 +30,7 @@ for wall in range(len(grid)):                   #  !
     grid[wall][0] = 1                           #  !
     grid[wall][34] = 1                          #  !
 grid[2][2] = 2                                  # \/ ------------------->> Y
-grid[6][8] = 3
+grid[32][32] = 3
 
 
 class Main():
@@ -54,6 +54,26 @@ class Main():
         else:
             return False
 
+    def checkcode(self,movingstring):
+        spx,spy = self.sp
+        for step in movingstring:
+            if step == 'U':       
+                x, y = spx-1, spy
+                spx,spy = x,y
+            if step == 'R':       
+                x, y = spx, spy+1
+                spx,spy = x,y
+            if step == 'D':       
+                x, y = spx+1, spy
+                spx,spy = x,y
+            if step == 'L':       
+                x, y = spx, spy-1
+                spx,spy = x,y
+        if grid[spx][spy] == 4:
+            return False
+        else:
+            return True
+
     def move(self,movingstring):            # 1 = Wall, 2 = StartPoint, 3 = EndPoint, 4 = Search Algorithm
         spx,spy = self.sp
         algorithmnum = 4
@@ -63,7 +83,7 @@ class Main():
                 if self.validate(x,y):
                     if not self.checkfound(x,y):
                         grid[x][y] = algorithmnum
-                        spx,spy = x,y
+                        spx, spy = x, y
                     else:
                         print('Found Path!', movingstring)
                         self.found = True
@@ -149,11 +169,12 @@ class Main():
             add = nums.get()
             for move in ['U','R','D','L']:
                 put = add + move
-                if self.move(put) == 'Valid':
-                    nums.put(put)
+                if self.checkcode(put):
+                    if self.move(put) == 'Valid':
+                        nums.put(put)
         if not killthread:
             self.markpath(add)
-            print('The endpoint is ' + str(len(add)) + ' Bloch away !')
+            print('The endpoint is ' + str(len(add)) + ' Block(s) away !')
 
 
 
@@ -165,7 +186,7 @@ th = threading.Thread(target=mm.findpath)
 pygame.init()
  
 # Set the HEIGHT and WIDTH of the screen
-WINDOW_SIZE = [600, 600]
+WINDOW_SIZE = [595, 595]
 screen = pygame.display.set_mode(WINDOW_SIZE)
  
 # Set title of screen
@@ -193,8 +214,10 @@ while not done:
         column = pos[0] // (WIDTH + MARGIN)
         row = pos[1] // (HEIGHT + MARGIN)
         # Set that location to one
-        grid[row][column] = 1
-        print("Click ", pos, "Grid coordinates: ", row, column)
+        if grid[row][column] != 1:
+            if grid[row][column] != 2:
+                if grid[row][column] != 3:
+                    grid[row][column] = 1
  
     # Set the screen background
     screen.fill(BLACK)
