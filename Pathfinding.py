@@ -137,7 +137,7 @@ class Main():
         spx,spy = self.sp
         marknum = 5
         for step in movingstring:
-            time.sleep(0.1)
+            time.sleep(0.02)
             if step == 'U':       
                 x, y = spx-1, spy
                 grid[x][y] = marknum
