@@ -2,6 +2,7 @@ import pygame
 import queue
 import threading
 import time
+
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
@@ -34,6 +35,7 @@ grid[32][32] = 3
 
 
 class Main():
+    
     def __init__(self, startpoint,endpoint=None):
         self.sp = startpoint
         self.ep = endpoint
