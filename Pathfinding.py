@@ -8,12 +8,9 @@ WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 YELLOW = (255,255,0)
- 
-# This sets the WIDTH and HEIGHT of each grid location
+
 WIDTH = 16
 HEIGHT = 16
- 
-# This sets the margin between each cell
 MARGIN = 1
  
 killthread = False
@@ -193,24 +190,21 @@ screen = pygame.display.set_mode(WINDOW_SIZE)
  
 # Set title of screen
 pygame.display.set_caption("Pathfinding Dmitri Pe.")
- 
-# Loop until the user clicks the close button.
 done = False
  
-# Used to manage how fast the screen updates
+#screen updates
 clock = pygame.time.Clock()
 
 # -------- Main Program Loop -----------
 while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:  # If user clicked close
-            done = True  # Flag that we are done so we exit this loop
+            done = True
             killthread = True
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_w:
                 th.start()
     if pygame.mouse.get_pressed()[0]==True:
-        # User clicks the mouse. Get the position
         pos = pygame.mouse.get_pos()
         # Change the x/y screen coordinates to grid coordinates
         column = pos[0] // (WIDTH + MARGIN)
@@ -251,14 +245,10 @@ while not done:
                               HEIGHT])
 
  
-    # Limit to 60 frames per second
     clock.tick(60)
- 
-    # Go ahead and update the screen with what we've drawn.
+
     pygame.display.flip()
  
 
 
-# Be IDLE friendly. If you forget this line, the program will 'hang'
-# on exit.
 pygame.quit()
